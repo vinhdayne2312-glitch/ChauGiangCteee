@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Happy Birthday 🎉</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  overflow: hidden;
+}
+
+/* INTRO */
+#intro {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: black;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 10;
+  animation: fadeIn 2s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+#intro h1 {
+  font-size: 45px;
+  animation: glow 2s infinite alternate;
+}
+
+#startBtn {
+  margin-top: 20px;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 10px;
+  background: #ff4081;
+  color: white;
+  font-size: 18px;
+}
+
+/* MAIN */
+#main {
+  display: none;
+  height: 100vh;
+  text-align: center;
+  color: white;
+  background: radial-gradient(circle, #ff758c, #ff7eb3);
+}
+
+/* tiêu đề */
+h2 {
+  margin-top: 40px;
+  font-size: 45px;
+}
+
+/* ảnh */
+img {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  border: 5px solid white;
+  box-shadow: 0 0 30px pink;
+  margin-top: 20px;
+}
+
+/* chữ */
+#text {
+  font-size: 22px;
+  margin-top: 20px;
+}
+
+/* nút */
+button {
+  margin-top: 20px;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 10px;
+  background: #ff4081;
+  color: white;
+  font-size: 18px;
+}
+
+/* glow */
+@keyframes glow {
+  from { text-shadow: 0 0 10px white; }
+  to { text-shadow: 0 0 40px #ff4081; }
+}
+
+/* tim */
+.heart {
+  position: absolute;
+  animation: fly 2s linear forwards;
+}
+
+@keyframes fly {
+  to {
+    transform: translateY(-200px);
+    opacity: 0;
+  }
+}
+
+/* pháo hoa */
+.firework {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  animation: explode 1s ease-out forwards;
+}
+
+@keyframes explode {
+  to {
+    transform: translate(var(--x), var(--y));
+    opacity: 0;
+  }
+}
+
+/* fade */
+.fadeOut {
+  animation: fadeOut 1s forwards;
+}
+
+@keyframes fadeOut {
+  to { opacity: 0; visibility: hidden; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- INTRO -->
+<div id="intro">
+  <h1>🎬 Một điều đặc biệt...</h1>
+  <button id="startBtn" onclick="start()">Bắt đầu</button>
+</div>
+
+<!-- MAIN -->
+<div id="main">
+  <h2>🎂 Happy Birthday 🎂</h2>
+
+  <img src="https://lh3.googleusercontent.com/d/1dA-BL6QTt7eoxq7MA7NBv0gp1sYs7D-d">
+
+  <div id="text"></div>
+
+  <button onclick="celebrate()">🎉 Chúc mừng</button>
+</div>
+
+<audio id="music" loop>
+<source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3">
+</audio>
+
+<script>
+// start
+function start(){
+  document.getElementById("intro").classList.add("fadeOut");
+  document.getElementById("main").style.display = "block";
+  document.getElementById("music").play();
+  typing();
+}
+
+// chữ chạy
+let msg = "Chúc bạn sinh nhật vui vẻ, luôn mạnh khỏe và thành công 🎉";
+let i = 0;
+function typing(){
+  if(i < msg.length){
+    document.getElementById("text").innerHTML += msg[i];
+    i++;
+    setTimeout(typing, 40);
+  }
+}
+
+// pháo hoa
+function celebrate(){
+  fireworkBoom();
+}
+
+// tạo pháo hoa
+function fireworkBoom(){
+  for(let i=0;i<100;i++){
+    let f = document.createElement("div");
+    f.className = "firework";
+    f.style.left = "50%";
+    f.style.top = "50%";
+    f.style.setProperty('--x', (Math.random()*500-250)+"px");
+    f.style.setProperty('--y', (Math.random()*500-250)+"px");
+    f.style.background = `hsl(${Math.random()*360},100%,50%)`;
+    document.body.appendChild(f);
+    setTimeout(()=>f.remove(),1000);
+  }
+}
+
+// tim bay
+document.addEventListener("mousemove", e=>{
+  let h = document.createElement("div");
+  h.className = "heart";
+  h.innerHTML = "💖";
+  h.style.left = e.clientX + "px";
+  h.style.top = e.clientY + "px";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),2000);
+});
+</script>
+
+</body>
+</html>
